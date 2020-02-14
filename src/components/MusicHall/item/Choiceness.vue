@@ -3,41 +3,67 @@
         <div class='swiper'>
             <swiper :options="swiperOption">
                 <!-- slides -->
-                <swiper-slide v-for="item in topPlayList" :key="item.id">
-                <img class="swiper-img" :src="item.coverImgUrl" alt="">
+                <swiper-slide v-for="(item,index) in topPlayList" :key="index" class='over-swiper-slide'>
+                    <div v-for="(i,ind) in item" :key="ind" class='swiper-item-div click-item' @click="openPlayListDetail(i.id)">
+                        <img class="swiper-img" :src="i.coverImgUrl">
+                        <div>{{i.name}}</div>
+                    </div>
                 </swiper-slide>
                 <!-- Optional controls -->
                 <div class="swiper-pagination"  slot="pagination"></div>
             </swiper>
-            </div>
+        </div>
+        <div class="swiper-scrollbar"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
     </div>
 </template>
 
 <script>
+// import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
     name: 'Choiceness',
-    components: {},
+    components: {
+        // swiper,
+        // swiperSlide
+    },
     props: [ ],
     created () {
         // 取出最热歌单
-        this.topPlayList = this.getTopPlayList()
+        this.getTopPlayList()
     },
     data () {
         return {
-            topPlayList: [],
-            topPlayListCount: 5,
-            showSwiper: true,
             swiperOption: {
-                pagination: '.swiper-pagination',
                 autoplay: 3000,
-                loop: true
-            }
+                speed: 1000
+            },
+            topPlayList: [],
+            topPlayListCount: 21,
+            showSwiper: true
+            // swiperOption: {
+            //     pagination: '.swiper-pagination',
+            //     autoplay: 3000,
+            //     loop: true
+            // }
         }
     },
     methods: {
+        openPlayListDetail: async function (id) {
+            this.$router.push('/playListDetail/' + id)
+        },
         getTopPlayList: async function () {
             const { data: res } = await this.$http.get(`top/playlist/highquality?limit=${this.topPlayListCount}`, this.loginForm)
-            return res.playlists
+            var tempPlayBlock = []
+            for (var item in res.playlists) {
+                if (tempPlayBlock.length < 6) {
+                    tempPlayBlock.push(res.playlists[item])
+                } else {
+                    this.topPlayList.push(tempPlayBlock)
+                    tempPlayBlock = []
+                }
+            }
         }
     },
     filter: {},
@@ -47,5 +73,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+.swiper-img{
+    width: 200px;
+    height: 200px;
+}
+.swiper{
+    margin-left: 35px;
+}
+.swiper-item-div{
+    width: 205px;
+    float:right;
+}
+.over-swpier-slide{
+}
 </style>

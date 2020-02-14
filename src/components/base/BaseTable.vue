@@ -14,7 +14,8 @@
                 :prop="i.prop"
                 :label="i.label"
                 :width="i.width"
-                :formatter="i.decorator">
+                :formatter="i.decorator"
+                class="click-item">
                     <template slot-scope='scope'>
                             <el-switch v-if="i.is_switch===true" v-model='scope.row.mg_state' @change="switchChange(scope.row)"></el-switch>
                             <div class='button_list'  v-else-if="i.is_defined==='OperationButton'">
@@ -27,7 +28,7 @@
                                     {{rowItem['name']}}
                                 </span>
                             </div>
-                            <span v-else>{{scope.row[i.prop]}}</span>
+                            <span v-else class="click-item">{{scope.row[i.prop]}}</span>
                     </template>
 
                     <!-- <el-switch v-if="i.is_switch"></el-switch> -->

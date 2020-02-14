@@ -33,4 +33,20 @@ a {
 .router-link-active {
   text-decoration: none;
 }
+.click-item:hover{
+  background-color:rgb(50, 113, 172);
+  cursor: pointer;
+}
+.cell:hover{
+  background-color:rgb(50, 113, 172);
+  cursor: pointer;
+}
+.el-table__row:hover{
+  background-color:rgb(50, 113, 172);
+  cursor: pointer;
+}
+.cell:hover{
+  background-color:rgb(50, 113, 172);
+  cursor: pointer;
+}
 </style>

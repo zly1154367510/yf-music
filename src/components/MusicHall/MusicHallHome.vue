@@ -2,7 +2,7 @@
     <div>
         <h2>音乐馆</h2>
         <div class='container'>
-            <el-tabs>
+            <el-tabs v-model="activeTab">
                 <el-tab-pane label="精选" name="first">
                     <choiceness></choiceness>
                 </el-tab-pane>
@@ -24,7 +24,7 @@ export default {
     props: {},
     data () {
         return {
-
+            activeTab: 'first'
         }
     },
     methods: {
