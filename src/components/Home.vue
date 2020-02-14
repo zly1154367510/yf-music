@@ -6,8 +6,18 @@
             </el-aside>
             <el-container>
                 <el-header>
-                    <el-page-header @back="goPreviousPage" content="返回"></el-page-header>
-                    <el-button type="success" round  v-if="isLogin" @click="logout">退出登录</el-button>
+                    <el-page-header @back="goPreviousPage" content="" ></el-page-header>
+                    <el-input
+                        placeholder="请输入搜索内容"
+                        prefix-icon="el-icon-search"
+                        v-model="keyword"
+                        size="mini"
+                        width="200px"
+                        class="keyword-input-text"
+                        @keyup.enter.native="queryKeyword"
+                        >
+                    </el-input>
+                    <el-button type="success" round  v-if="isLogin" @click="logout">已登录</el-button>
                     <el-button type="success" round @click='loginDialogVisible=true' v-else>点击登录</el-button>
                 </el-header>
                 <el-main>
@@ -19,7 +29,7 @@
                     :music="musicData"
                     :float="true"
                     :autoplay="true"
-                    :list="musicList"
+                    :list="$store.state.playMusicListData"
                     theme="#696969"
                     mode="circulation"
                     listmaxheight='96px'
@@ -37,7 +47,7 @@
                     <el-input v-model="loginForm.phone"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input v-model="loginForm.password"></el-input>
+                    <el-input v-model="loginForm.password" show-password></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -68,6 +78,8 @@ export default {
     props: {},
     data () {
         return {
+            keyword: '',
+            keywordQueryData: [],
             loginForm: {
                 phone: '',
                 password: ''
@@ -78,6 +90,20 @@ export default {
         }
     },
     methods: {
+        queryKeyword: async function (e) {
+            // 关键字搜索歌曲
+            var keyCode = window.event ? e.keyCode : e.which
+            if (keyCode === 13) {
+                const {data: searchRes} = await this.$http.get('/search?keywords=' + this.keyword)
+                if (this.requestResMessage(searchRes, false, '获取搜索结果失败')) {
+                    var res = await this.getPlayURL(searchRes.result.songs)
+                    this.$store.commit('setMusicListData', res)
+                    if (this.$route.path !== '/MusicListTable') {
+                        this.$router.push({ name: 'musicList' })
+                    }
+                }
+            }
+        },
         goPreviousPage: function () {
             // 返回上一个页面
             this.$router.go(-1)
@@ -149,4 +175,16 @@ export default {
     color: #2B2B2B
 }
 
+/deep/.el-input__inner{
+    margin-left: 20px;
+    width: 200px;
+    background-color: #2B2B2B
+}
+
+/deep/ .el-input__prefix{
+      margin-left: 20px;
+}
+/deep/.el-page-header {
+    width: 100px;
+}
 </style>

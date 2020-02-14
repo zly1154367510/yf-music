@@ -7,8 +7,8 @@ import './plugins/element.js'
 import './base/axios.config.js'
 import './plugins/swiper.js'
 import store from './store'
+import './common.js'
 Vue.config.productionTip = false
-
 /* eslint-disable no-new */
 new Vue({
     el: '#app',

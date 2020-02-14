@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '../components/Home.vue'
 import MusicHallHome from '../components/MusicHall/MusicHallHome.vue'
 import PlayListDetail from '../components/PlayListDetail.vue'
+import MusicListTable from '../components/MusicListTable.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -19,6 +20,11 @@ export default new Router({
                 {
                     path: '/PlayListDetail/:playListId',
                     component: PlayListDetail
+                },
+                {
+                    path: '/MusicListTable',
+                    name: 'musicList',
+                    component: MusicListTable
                 }
             ]
         }

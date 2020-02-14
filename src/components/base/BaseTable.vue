@@ -72,7 +72,6 @@ export default {
             this.$emit('getList', this.paramsInfo)
         },
         switchChange: function (value) {
-            console.log(value)
             this.$emit('updateRow', value)
         },
         arrange: function (value) {

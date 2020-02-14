@@ -21,6 +21,7 @@ axios.interceptors.response.use(config => {
         var code = err.response.status
         if (code === 400) {
             // console.log('code:' + code + '请求参数错误')
+            return err.response
         } else if (code === 404) {
             if (err.response.data.success === false) {
                 return err.response
@@ -29,6 +30,7 @@ axios.interceptors.response.use(config => {
             // console.log('code:' + code + '需要登录请求')
             return err.response
         } else {
+            return err.response
             // console.log('code:' + code + '请求错误')
         }
     }

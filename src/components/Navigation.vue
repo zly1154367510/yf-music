@@ -30,17 +30,17 @@ export default {
                         {
                             name: '音乐馆',
                             icon: 'music',
-                            to: 'MusicHallHome'
+                            to: '/MusicHallHome'
                         },
                         {
                             name: '视频',
                             icon: 'video',
-                            to: 'MusicHallHome'
+                            to: '/MusicHallHome'
                         },
                         {
                             name: '电台',
                             icon: 'radio',
-                            to: 'MusicHallHome'
+                            to: '/MusicHallHome'
                         }
                     ]
                 }

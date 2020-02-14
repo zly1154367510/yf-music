@@ -36,7 +36,6 @@ export default {
     },
     methods: {
         getTopPlayList: async function () {
-            // console.log(this)
             const { data: res } = await this.$http.get(`top/playlist/highquality?limit=${this.topPlayListCount}`, this.loginForm)
             return res.playlists
         }

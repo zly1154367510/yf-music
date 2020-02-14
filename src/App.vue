@@ -27,4 +27,10 @@ html, body {
   height: 100%;
   width: 100%;
 }
+a {
+  text-decoration: none;
+}
+.router-link-active {
+  text-decoration: none;
+}
 </style>

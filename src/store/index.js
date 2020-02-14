@@ -10,9 +10,17 @@ export default new Vuex.Store({
         token: '',
         userId: 0,
         musicList: [],
-        musicData: false
+        musicData: false,
+        musicListData: [],
+        playMusicListData: []
     },
     mutations: {
+        setPlayMusicListData (state, data) {
+            state.playMusicListData = data
+        },
+        setMusicListData (state, data) {
+            state.musicListData = data
+        },
         loginStatus (state, status) {
             // mutate state
             state.isLogin = status
