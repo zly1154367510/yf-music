@@ -8,6 +8,7 @@ var loginUrl = [
 ]
 axios.interceptors.request.use(config => {
     // axios请求拦截器,用以配置请求头等信息
+    store.commit('setLoading', true)
     if (store.state.isLogin === false && loginUrl.includes(config.url.split('?')[0])) {
         return ''
     } else {
@@ -15,6 +16,7 @@ axios.interceptors.request.use(config => {
     }
 })
 axios.interceptors.response.use(config => {
+    store.commit('setLoading', false)
     return config
 }, function (err) {
     if (err.response) {

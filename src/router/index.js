@@ -10,8 +10,8 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'Home',
             component: Home,
+            redirect: '/MusicHallHome',
             children: [
                 {
                     path: '/MusicHallHome',

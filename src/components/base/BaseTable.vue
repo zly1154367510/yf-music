@@ -1,12 +1,16 @@
 <template>
     <div class='table'>
         <el-table
+        v-loading="$store.state.loading"
         :cell-style="tableRowStyle"
         :header-cell-style="tableRowStyle"
         :data="value"
         style="width: 100%"
         stripe
         @row-click="rowClick"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
         >
             <el-table-column
                 :key = i.prop

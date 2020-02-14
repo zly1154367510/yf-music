@@ -12,7 +12,8 @@ export default new Vuex.Store({
         musicList: [],
         musicData: false,
         musicListData: [],
-        playMusicListData: []
+        playMusicListData: [],
+        loading: false
     },
     mutations: {
         setPlayMusicListData (state, data) {
@@ -40,6 +41,9 @@ export default new Vuex.Store({
         },
         setMusicData (state, data) {
             state.musicData = data
+        },
+        setLoading (state, data) {
+            state.loading = data
         }
     },
     actions: {

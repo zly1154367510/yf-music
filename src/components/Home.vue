@@ -123,6 +123,7 @@ export default {
         },
         checkLoginStatus: async function () {
             var requestRes = await this.$http.get('/login/status')
+            console.log(requestRes)
             if (requestRes.data) {
                 const res = requestRes.data
                 if (res !== undefined && res.code === 301) {

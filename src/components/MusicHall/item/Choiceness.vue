@@ -13,10 +13,6 @@
                 <div class="swiper-pagination"  slot="pagination"></div>
             </swiper>
         </div>
-        <div class="swiper-scrollbar"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
     </div>
 </template>
 
@@ -78,7 +74,7 @@ export default {
     height: 200px;
 }
 .swiper{
-    margin-left: 35px;
+    margin-left: 5px;
 }
 .swiper-item-div{
     width: 205px;
