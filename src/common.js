@@ -50,6 +50,11 @@ const getPlayURL = async function (musicList) {
     return musicList
 }
 
+Vue.prototype.tableFields = [
+    { label: '我喜欢', width: 100, is_defined: 'OperationButton' },
+    { prop: 'name', 'label': '歌名', 'width': 900 },
+    { prop: 'ar', 'label': '歌手', 'width': 400, type: 'array', arrayIndex: ['ar'] }
+]
 Vue.prototype.getPlayURL = getPlayURL
 Vue.prototype.playLineMusic = playLineMusic
 Vue.prototype.buildPlayMusicList = buildPlayMusicList

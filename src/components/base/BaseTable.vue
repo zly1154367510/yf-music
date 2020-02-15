@@ -7,7 +7,7 @@
         :data="value"
         style="width: 100%"
         stripe
-        @row-click="rowClick"
+        @rowClick="rowClick"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -21,18 +21,25 @@
                 :formatter="i.decorator"
                 class="click-item">
                     <template slot-scope='scope'>
-                            <el-switch v-if="i.is_switch===true" v-model='scope.row.mg_state' @change="switchChange(scope.row)"></el-switch>
-                            <div class='button_list'  v-else-if="i.is_defined==='OperationButton'">
-                                <el-button type="warning" icon="el-icon-star-off" circle @click='arrange(scope.row.id)'></el-button>
-                                <el-button type="danger" icon="el-icon-delete" circle @click="delele(scope.row.id)"></el-button>
-                                <el-button type="success" icon="el-icon-check" circle></el-button>
+                            <div :style="scope.row['playUrl'] == null && 'playUrl' in scope.row?'text-decoration: line-through;color:#FFDEAD':''">
+                                <el-switch v-if="i.is_switch===true" v-model='scope.row.mg_state' @change="switchChange(scope.row)"></el-switch>
+                                <div class='button_list'  v-else-if="i.is_defined==='OperationButton'">
+                                    <el-button type="success" icon="el-icon-video-play" circle @click='rowClick(scope.row)'></el-button>
+                                    <el-button type="success" icon="el-icon-folder-add" circle @click="showPlayListDialog(scope.row.id)"></el-button>
+                                    <!-- <el-button type="success" icon="el-icon-check" circle></el-button> -->
+                                </div>
+                                <div class='button_list' v-else-if="i.is_defined==='addFavorite'">
+                                     <el-button type="success" icon="el-icon-folder-add" circle @click="addFavorite(scope.row.id)"></el-button>
+                                </div>
+                                <div v-if="i.type=='array'">
+                                    <span v-for="(rowItem, index) in scope.row[i.arrayIndex]" :key="rowItem.id">
+                                        <span v-if="index != 0">{{' / '+rowItem['name']}}</span>
+                                        <span v-else>{{rowItem['name']}}</span>
+                                    </span>
+                                </div>
+                                <div  v-else-if="i.is_defined==='img'"><img :src="scope.row[i.prop]" width="40px" height="40px"></div>
+                                <span v-else class="click-item">{{scope.row[i.prop]}}</span>
                             </div>
-                            <div v-if="i.type=='array'">
-                                <span v-for="rowItem in scope.row[i.arrayIndex]" :key="rowItem.id">
-                                    {{rowItem['name']}}
-                                </span>
-                            </div>
-                            <span v-else class="click-item">{{scope.row[i.prop]}}</span>
                     </template>
 
                     <!-- <el-switch v-if="i.is_switch"></el-switch> -->
@@ -58,8 +65,7 @@ export default {
     // value 获取父组件双向绑定的值
     props: ['tableFields', 'paramsInfo', 'total', 'url', 'value'],
     data () {
-        return {
-        }
+        return {}
     },
     components: {
     },
@@ -82,11 +88,14 @@ export default {
         arrange: function (value) {
             this.$emit('showUpdateUserDialog', value)
         },
-        delele: function (value) {
-            this.$emit('showDelUserMessageBox', value)
+        showPlayListDialog: function (value) {
+            this.$emit('showPlayListDialog', value)
         },
         tableRowStyle: function () {
             return { backgroundColor: 'black' }
+        },
+        addFavorite: function (row) {
+            this.$emit('addFavorite', row)
         }
     },
     filter: {},
@@ -98,6 +107,10 @@ export default {
 <style lang="less" scope>
 .el-pagination{
     padding-top: 15px
+}
+
+.button_list {
+    float: left;
 }
 
 </style>

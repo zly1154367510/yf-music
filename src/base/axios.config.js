@@ -19,6 +19,7 @@ axios.interceptors.response.use(config => {
     store.commit('setLoading', false)
     return config
 }, function (err) {
+    store.commit('setLoading', false)
     if (err.response) {
         var code = err.response.status
         if (code === 400) {

@@ -23,16 +23,19 @@
                 <el-main>
                     <router-view></router-view>
                 </el-main>
-                <el-footer class='el-footer'>
+                <el-footer v-if="musicData == false" class='el-footer'>
+                </el-footer>
+                <el-footer v-else class='el-footer' style="height: 130px;">
                     <a-player
+                    style="background-color: #4F4F4F;color:rgb(254, 254, 255)"
+                    :repeat="'repeat-all'"
                     v-if="musicData != false"
                     :music="musicData"
-                    :float="true"
                     :autoplay="true"
                     :list="$store.state.playMusicListData"
                     theme="#696969"
                     mode="circulation"
-                    listmaxheight='96px'
+                    listmaxheight='60px'
                     ref="player"></a-player>
                 </el-footer>
             </el-container>
@@ -68,7 +71,7 @@ export default {
         this.checkLoginStatus()
     },
     computed: {
-        ...mapState(['isLogin', 'token', 'userId', 'musicData', 'musicList'])
+        ...mapState(['isLogin', 'token', 'userId', 'musicData'])
     },
     components: {
         'a-player': VueAplayer,
@@ -97,6 +100,9 @@ export default {
                 const {data: searchRes} = await this.$http.get('/search?keywords=' + this.keyword)
                 if (this.requestResMessage(searchRes, false, '获取搜索结果失败')) {
                     var res = await this.getPlayURL(searchRes.result.songs)
+                    for (var index in res) {
+                        res[index]['ar'] = res[index]['artists']
+                    }
                     this.$store.commit('setMusicListData', res)
                     if (this.$route.path !== '/MusicListTable') {
                         this.$router.push({ name: 'musicList' })

@@ -30,11 +30,7 @@ export default {
     data () {
         return {
             playListDetail: {},
-            tableFields: [
-                { prop: 'name', 'label': '歌名', 'width': 900 },
-                { prop: 'ar', 'label': '歌手', 'width': 400, type: 'array', arrayIndex: ['ar'] }
-                // { prop: '3', 'label': '专辑', 'width': 200 }
-            ]
+            tableFields: this.tableFields
         }
     },
     methods: {

@@ -53,17 +53,17 @@ export default {
                             name: '我喜欢',
                             icon: 'like',
                             to: 'MusicHallHome'
-                        },
-                        {
-                            name: '本地和下载',
-                            icon: 'local',
-                            to: 'MusicHallHome'
-                        },
-                        {
-                            name: '播放历史',
-                            icon: 'history',
-                            to: 'MusicHallHome'
                         }
+                        // {
+                        //     name: '本地和下载',
+                        //     icon: 'local',
+                        //     to: 'MusicHallHome'
+                        // },
+                        // {
+                        //     name: '播放历史',
+                        //     icon: 'history',
+                        //     to: 'MusicHallHome'
+                        // }
                     ]
                 }
             ]
