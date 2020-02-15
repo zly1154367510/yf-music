@@ -4,7 +4,8 @@
             <base-table
             :tableFields="tableFields"
             :value="$store.state.musicListData"
-             @showPlayListDialog='showPlayListDialog'>
+            @rowClick="playMusic"
+            @showPlayListDialog='showPlayListDialog'>
              </base-table>
         </div>
         <el-dialog
