@@ -5,7 +5,8 @@
             :tableFields="tableFields"
             :value="$store.state.musicListData"
             @rowClick="playMusic"
-            @showPlayListDialog='showPlayListDialog'>
+            @showPlayListDialog='showPlayListDialog'
+            @removeFavorite='removeFavorite'>
              </base-table>
         </div>
         <el-dialog
@@ -41,6 +42,7 @@ export default {
             tableFields: this.tableFields,
             dialogVisible: false,
             playListData: [],
+            is_my_play_list: this.$route.query.is_my_play_list,
             addFavoriteMusicId: 0,
             musicPlaytableFields: [
                 { label: '操作', width: 60, is_defined: 'addFavorite' },
@@ -71,8 +73,17 @@ export default {
                 if (res.code !== 200) {
                     this.$message(res.message)
                 } else {
-                    this.$message('添加成功')
+                    this.$message('添加成功,添加歌曲需要两分钟后生效')
                 }
+            }
+            this.dialogVisible = false
+        },
+        removeFavorite: async function (row, option = 'del') {
+            const { data: res } = await this.$http.get(`/playlist/tracks?op=${option}&tracks=${row}&pid=${this.$route.params.playListId}`)
+            if (res.code !== 200) {
+                this.$message(res.message)
+            } else {
+                this.$message('移除成功，移除歌曲需要两分钟后生效')
             }
         }
     },

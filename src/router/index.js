@@ -22,6 +22,10 @@ export default new Router({
                     component: PlayListDetail
                 },
                 {
+                    path: '/PlayListDetail/:playListId/:is_my',
+                    component: PlayListDetail
+                },
+                {
                     path: '/MusicListTable',
                     name: 'musicList',
                     component: MusicListTable

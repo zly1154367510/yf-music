@@ -22,6 +22,11 @@
                     <template slot-scope='scope'>
                             <div :style="scope.row['playUrl'] == null && 'playUrl' in scope.row?'text-decoration: line-through;color:#FFDEAD':''">
                                 <el-switch v-if="i.is_switch===true" v-model='scope.row.mg_state' @change="switchChange(scope.row)"></el-switch>
+                                <div class='button_list'  v-else-if="i.is_defined==='OperationButton' && is_my==1">
+                                    <el-button type="success" icon="el-icon-video-play" circle @click='rowClick(scope.row)'></el-button>
+                                    <el-button type="success" icon="el-icon-folder-add" circle @click="showPlayListDialog(scope.row.id)"></el-button>
+                                    <el-button type="success" icon='el-icon-remove' @click="removeMusic(scope.row.id)" circle></el-button>
+                                </div>
                                 <div class='button_list'  v-else-if="i.is_defined==='OperationButton'">
                                     <el-button type="success" icon="el-icon-video-play" circle @click='rowClick(scope.row)'></el-button>
                                     <el-button type="success" icon="el-icon-folder-add" circle @click="showPlayListDialog(scope.row.id)"></el-button>
@@ -63,8 +68,16 @@ export default {
     name: 'BaseTable',
     // value 获取父组件双向绑定的值
     props: ['tableFields', 'paramsInfo', 'total', 'url', 'value'],
+    mounted () {
+        this.setIsMy()
+    },
+    updated () {
+        this.setIsMy()
+    },
     data () {
-        return {}
+        return {
+            is_my: 0
+        }
     },
     components: {
     },
@@ -95,6 +108,14 @@ export default {
         },
         addFavorite: function (row) {
             this.$emit('addFavorite', row)
+        },
+        removeMusic: function (id) {
+            this.$emit('removeFavorite', id)
+        },
+        setIsMy: function () {
+            if (this.$route.params.is_my === '1') {
+                this.is_my = 1
+            }
         }
     },
     filter: {},

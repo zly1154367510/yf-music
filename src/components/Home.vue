@@ -35,7 +35,7 @@
                     :list="$store.state.playMusicListData"
                     theme="#696969"
                     mode="circulation"
-                    listmaxheight='60px'
+                    listmaxheight='50px'
                     ref="player"></a-player>
                 </el-footer>
             </el-container>

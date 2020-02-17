@@ -11,7 +11,9 @@
                 </p>
             </div>
             <div  v-else>
-                <p class='navigation-header'>{{i.title}}</p>
+                <p class='navigation-header'>{{i.title}}
+                    <i v-if="i.is_defined_play_list" class='add_play_list_button el-icon-plus' @click="iClick"></i>
+                </p>
                 <p class='navigation-item' v-for="item in i.navigationItemConfig" :key="item.name">
                     <router-link :to="item.to">
                         <img :src="item['imgURL']" class="navigation-item-img">
@@ -36,6 +38,9 @@ export default {
     methods: {
         getImgUrl: function (icon) {
             return require('./../assets/icon/' + icon + '.png')
+        },
+        iClick: function (row) {
+            this.$emit('iClick', '')
         }
     },
     filter: {},
@@ -65,5 +70,13 @@ export default {
 }
 .navigation-item-text{
      vertical-align: middle;
+}
+.add_play_list_button{
+    background-color: #2B2B2B;
+    margin-left: 20px;
+}
+.add_play_list_button:hover{
+    background-color:rgb(50, 113, 172);
+    cursor: pointer;
 }
 </style>
