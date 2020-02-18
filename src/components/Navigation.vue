@@ -120,7 +120,7 @@ export default {
                 url += `&privacy=10 `
             }
             const requestRes = await this.$http.get(url)
-            if (this.requestResMessage(requestRes.data  , false, '创建歌单失败')) {
+            if (this.requestResMessage(requestRes.data, false, '创建歌单失败')) {
                 this.getUserPlayList()
             }
             this.addPlayListVisible = false

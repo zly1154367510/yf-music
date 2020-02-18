@@ -4,7 +4,9 @@
             <img :src="playListDetail.coverImgUrl">
             <span>{{playListDetail.name}}</span>
         </div>
-        <music-list-table></music-list-table>
+        <music-list-table
+        :inputTableFields="tableFields"
+        ></music-list-table>
     </div>
 </template>
 
@@ -19,8 +21,11 @@ export default {
     },
     mounted () {
         this.getPlayListDetail()
+        this.init()
     },
-    props: {},
+    props: [
+        'tableFields'
+    ],
     watch: {
         // 监听url栏的参数变化 如果变化了则刷新数据
         '$route' (to, from) {
@@ -29,8 +34,7 @@ export default {
     },
     data () {
         return {
-            playListDetail: {},
-            tableFields: this.tableFields
+            playListDetail: {}
         }
     },
     methods: {
@@ -42,6 +46,11 @@ export default {
             if (this.requestResMessage(res, false, '获取歌单详情失败')) {
                 var musicList = await this.getPlayURL(res.playlist.tracks)
                 this.$store.commit('setMusicListData', musicList)
+            }
+        },
+        init: function () {
+            if (this.tableFeilds === null || this.tableFields === undefined) {
+                this.tableFields = this.tableFields
             }
         }
     },

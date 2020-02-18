@@ -19,12 +19,14 @@ const playLineMusic = async function (row) {
 const buildPlayMusicList = function (res) {
     var musicList = []
     for (var item in res) {
-        musicList.push({
-            title: res[item].name,
-            artist: res[item].name,
-            src: res[item].playUrl
+        if (res[item].playUrl !== null) {
+            musicList.push({
+                title: res[item].name,
+                artist: res[item].name,
+                src: res[item].playUrl
             // pic: res[item].al.picUrl
-        })
+            })
+        }
     }
     this.$store.commit('setPlayMusicListData', musicList)
 }
@@ -49,7 +51,11 @@ const getPlayURL = async function (musicList) {
     }
     return musicList
 }
-
+const playMusic = function (row) {
+    this.buildPlayMusicList(this.$store.state.musicListData)
+    this.playLineMusic(row)
+}
+Vue.prototype.commonPlatMusic = playMusic
 Vue.prototype.tableFields = [
     { label: '操作', width: 180, is_defined: 'OperationButton' },
     { prop: 'name', 'label': '歌名', 'width': 900 },

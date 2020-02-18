@@ -49,7 +49,7 @@ a {
   background-color:rgb(50, 113, 172);
   cursor: pointer;
 }
-.el-dialog{
+.el-dialog,.el-card,.el-collapse,.el-collapse-item,.el-table,.el-collapse-item__header{
   background-color: #2B2B2B;
   color: azure
 }

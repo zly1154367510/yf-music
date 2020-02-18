@@ -4,7 +4,8 @@ import store from './../store'
 axios.defaults.baseURL = 'http://106.12.138.179:3000'
 axios.defaults.withCredentials = true
 var loginUrl = [
-    '/user/playlist'
+    '/user/playlist',
+    '/recommend/songs'
 ]
 axios.interceptors.request.use(config => {
     // axios请求拦截器,用以配置请求头等信息
