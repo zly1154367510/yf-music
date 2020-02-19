@@ -34,19 +34,19 @@ a {
   text-decoration: none;
 }
 .click-item:hover{
-  background-color:rgb(50, 113, 172);
+  /* background-color:rgb(50, 113, 172); */
   cursor: pointer;
 }
 .cell:hover{
-  background-color:rgb(50, 113, 172);
+  /* background-color:rgb(50, 113, 172); */
   cursor: pointer;
 }
 .el-table__row:hover{
-  background-color:rgb(50, 113, 172);
+  /* background-color:rgb(50, 113, 172); */
   cursor: pointer;
 }
 .cell:hover{
-  background-color:rgb(50, 113, 172);
+  /* background-color:rgb(50, 113, 172); */
   cursor: pointer;
 }
 .el-dialog,.el-card,.el-collapse,.el-collapse-item,.el-table,.el-collapse-item__header{

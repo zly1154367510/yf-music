@@ -1,0 +1,18 @@
+// 获取精品歌单
+var types = {
+    SET_TOP_PLAY: 'SET_TOP_PLAY',
+
+    SET_NEWSONG: 'SET_NEWSONG',
+
+    SET_SONGLIST: 'SET_SONGLIST',
+
+    SET_HOTWORD: 'SET_HOTWORD',
+
+    SET_SEARCH: 'SET_SEARCH',
+
+    SET_PLAYURL: 'SET_PLAYURL',
+
+    SET_LISTDETAIL: 'SET_LISTDETAIL'
+}
+
+export default types

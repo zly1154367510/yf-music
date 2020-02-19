@@ -48,20 +48,20 @@ export default {
             ],
             onlineNavigationConfig: [
                 {
-                    title: '在线音乐',
+                    title: '推荐',
                     navigationItemConfig: [
                         {
-                            name: '音乐馆',
+                            name: '发现音乐',
                             icon: 'music',
                             to: '/MusicHallHome'
                         },
                         {
-                            name: '视频',
+                            name: '私人FM',
                             icon: 'video',
                             to: '/MusicHallHome'
                         },
                         {
-                            name: '电台',
+                            name: 'LOOK直播',
                             icon: 'radio',
                             to: '/MusicHallHome'
                         }

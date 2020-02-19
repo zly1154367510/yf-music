@@ -21,7 +21,9 @@
                     <el-button type="success" round @click='loginDialogVisible=true' v-else>点击登录</el-button>
                 </el-header>
                 <el-main>
-                    <router-view></router-view>
+                    <keep-alive>
+                        <router-view></router-view>
+                    </keep-alive>
                 </el-main>
                 <el-footer v-if="musicData == false" class='el-footer'>
                 </el-footer>
@@ -176,7 +178,9 @@ export default {
     background-color:#2B2B2B
 }
 .el-main{
-    background-color:black
+    background-color:black;
+    padding:0px;
+    margin:0px;
 }
 .el-footer{
     background-color: #4F4F4F;

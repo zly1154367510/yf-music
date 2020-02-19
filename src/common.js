@@ -55,6 +55,12 @@ const playMusic = function (row) {
     this.buildPlayMusicList(this.$store.state.musicListData)
     this.playLineMusic(row)
 }
+
+const getWeek = function () {
+    var a = ['日', '一', '二', '三', '四', '五', '六']
+    var week = new Date().getDay()
+    return a[week]
+}
 Vue.prototype.commonPlatMusic = playMusic
 Vue.prototype.tableFields = [
     { label: '操作', width: 180, is_defined: 'OperationButton' },
@@ -64,3 +70,19 @@ Vue.prototype.tableFields = [
 Vue.prototype.getPlayURL = getPlayURL
 Vue.prototype.playLineMusic = playLineMusic
 Vue.prototype.buildPlayMusicList = buildPlayMusicList
+Vue.prototype.getWeek = getWeek
+Vue.prototype.types = {
+    SET_TOP_PLAY: 'SET_TOP_PLAY',
+
+    SET_NEWSONG: 'SET_NEWSONG',
+
+    SET_SONGLIST: 'SET_SONGLIST',
+
+    SET_HOTWORD: 'SET_HOTWORD',
+
+    SET_SEARCH: 'SET_SEARCH',
+
+    SET_PLAYURL: 'SET_PLAYURL',
+
+    SET_LISTDETAIL: 'SET_LISTDETAIL'
+}

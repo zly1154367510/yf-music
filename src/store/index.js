@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import actions from './action.js'
+import mutations from './mutation.js'
+import getter from './getter.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -13,49 +15,13 @@ export default new Vuex.Store({
         musicData: false,
         musicListData: [],
         playMusicListData: [],
-        loading: false
+        loading: false,
+        // 精品歌单
+        topPlayList: []
     },
-    mutations: {
-        clearLoginStatus (state) {
-            state.isLogin = false
-            state.userId = 0
-            // state.musicList = []
-            // state.musicData = false
-            state.musicListData = []
-            state.playMusicListData = []
-        },
-        setPlayMusicListData (state, data) {
-            state.playMusicListData = data
-        },
-        setMusicListData (state, data) {
-            state.musicListData = data
-        },
-        loginStatus (state, status) {
-            // mutate state
-            state.isLogin = status
-        },
-        setToken (state, token) {
-            // mutate state
-            state.token = token
-        },
-        setUserId (state, userId) {
-            state.userId = userId
-        },
-        setMusicList (state, data) {
-            state.musicList = data
-        },
-        clearMusicList (state) {
-            state.musicList = []
-        },
-        setMusicData (state, data) {
-            state.musicData = data
-        },
-        setLoading (state, data) {
-            state.loading = data
-        }
-    },
-    actions: {
-    },
+    mutations: mutations,
+    actions: actions,
+    getters: getter,
     modules: {
     }
 })

@@ -2,40 +2,42 @@
     <div>
         <div class='swiper'>
             <swiper :options="swiperOption">
-                <!-- slides -->
-                <swiper-slide v-for="(item,index) in topPlayList" :key="index" class='over-swiper-slide'>
+                <swiper-slide v-for="(item,index) in getTopPlayList()" :key="index" class='over-swiper-slide'>
                     <div v-for="(i,ind) in item" :key="ind" class='swiper-item-div click-item' @click="openPlayListDetail(i.id)">
                         <img class="swiper-img" :src="i.coverImgUrl">
                         <div>{{i.name}}</div>
                     </div>
                 </swiper-slide>
-                <!-- Optional controls -->
-                <div class="swiper-pagination"  slot="pagination"></div>
             </swiper>
         </div>
-        <div>
-            <el-collapse v-model="activeNames"  class='collapse'>
-            <el-collapse-item title="每日推荐 Consistency" name="1">
-                 <el-card class="box-card">
-                <music-list-table
-                :inputValue="recommendMusicList"
-                :inputTableFields="tableFields"></music-list-table>
-                </el-card>
-            </el-collapse-item>
-            </el-collapse>
-            <el-collapse v-model="activeNames1"  class='collapse'>
-                <el-collapse-item title="推荐新音乐 Feedback" name="1">
-                    <el-card class="box-card">
-                    <music-list-table
-                    :inputValue="newMusicList"
-                    :inputTableFields="tableFields"></music-list-table>
-                    </el-card>
-                </el-collapse-item>
-                <el-collapse-item title="可控 Controllability" name="2">
-                    <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-                    <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
-                </el-collapse-item>
-            </el-collapse>
+        <!-- <div class="block">
+            <el-carousel trigger="click" height="150px">
+                <el-carousel-item v-for="(item,index) in getTopPlayList()" :key="index" class='over-swiper-slide'>
+                    <div v-for="(i,ind) in item" :key="ind" class='swiper-item-div click-item' @click="openPlayListDetail(i.id)">
+                        <img class="swiper-img" :src="i.coverImgUrl">
+                        <div>{{i.name}}</div>
+                    </div>
+                </el-carousel-item>
+            </el-carousel>
+        </div> -->
+        <br><br>
+        <div class="recommendPlayList">
+            <h2>推荐歌单</h2>
+            <hr>
+            <br>
+            <div class="recommendDiv" >
+                <div class='recommendImg'>
+                    <div style="font-size:25px;text-align:center;color:black">{{recommendMusic.week}}</div>
+                    <div style="font-size:100px;text-align:center;color:red">{{recommendMusic.playLength}}</div>
+                </div>
+                <div class='recommendText'>每日歌曲推荐</div>
+            </div>
+            <div class="recommendDiv" v-for="(item,index) in recommendPlayList" :key="index">
+                <router-link :to="'/PlayListDetail/' + item.id">
+                    <img :src="item.picUrl">
+                    <div>{{item.name}}</div>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -43,19 +45,23 @@
 <script>
 // import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import MusicListTable from './../../MusicListTable.vue'
+import axiosList from '@/api/axios_api.js'
+import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
     name: 'Choiceness',
     components: {
         MusicListTable
     },
+    computed: {
+        ...mapState(['topPlayList'])
+    },
     props: [ ],
     mounted () {
         // 取出最热歌单
-        console.log('sacsa')
-        this.getTopPlayList()
+        this.$store.dispatch('topPlay', this.topPlayListCount)
         // 取出推荐歌单
         this.getRecommend()
-        this.getNewMusic()
+        // this.getNewMusic()
     },
     data () {
         return {
@@ -66,93 +72,73 @@ export default {
                 speed: 1000
             },
             show: false,
-            newMusicList: [],
-            recommendMusicList: [],
-            // newMusicList: [],
-            // newMusicList: [],
-            topPlayList: [],
-            topPlayListCount: 21,
-            showSwiper: true,
-            tableFields: [
-                { label: '操作', width: 150, is_defined: 'OperationButton' },
-                { prop: 'name', 'label': '歌名', 'width': 230 },
-                // { prop: 'reason', 'label': '推荐理由', 'width': 450 },
-                { prop: 'artists', 'label': '歌手', 'width': 300, type: 'array', arrayIndex: ['artists'] }
-            ]
-            // swiperOption: {
-            //     pagination: '.swiper-pagination',
-            //     autoplay: 3000,
-            //     loop: true
-            // }
+            recommendPlayList: [],
+            recommendMusic: {
+                playList: [],
+                playLength: 0,
+                week: '星期' + this.getWeek()
+            },
+            topPlayListCount: 21
         }
     },
     methods: {
+        ...mapGetters(['getTopPlayList']),
+        ...mapActions([ 'topPlay' ]),
         openPlayListDetail: async function (id) {
             this.$router.push('/playListDetail/' + id)
         },
-        getTopPlayList: async function () {
-            const { data: res } = await this.$http.get(`top/playlist/highquality?limit=${this.topPlayListCount}`, this.loginForm)
-            var tempPlayBlock = []
-            for (var item in res.playlists) {
-                if (tempPlayBlock.length < 6) {
-                    tempPlayBlock.push(res.playlists[item])
-                } else {
-                    this.topPlayList.push(tempPlayBlock)
-                    tempPlayBlock = []
-                }
-            }
-        },
         getRecommend: async function () {
-            var res = await this.$http.get('recommend/songs')
-            if (res === undefined) {
-                res = await this.$http.get('recommend/songs')
-            }
-            var requestRes = res.data
-            if (this.requestResMessage(requestRes, false, '获取每日推荐失败')) {
-                var musicList = await this.getPlayURL(requestRes.recommend)
-                // console.log(musicList)
-                // this.$store.commit('setMusicListData', musicList)
-                this.recommendMusicList = musicList
-            }
-        },
-        getNewMusic: async function () {
-            var res = await this.$http.get('/personalized/newsong')
-            if (res === undefined) {
-                res = await this.$http.get('/personalized/newsong')
-            }
-            var requestRes = res.data
-            if (this.requestResMessage(requestRes, false, '获取推荐新歌失败')) {
-                var musicList = await this.getPlayURL(requestRes.result)
-                // console.log(musicList)
-                // this.$store.commit('setMusicListData', musicList)
-                this.newMusicList = musicList
-            }
+            // axiosList.getRecommendPlayList().then(res => {
+            //     this.recommendPlayList = res.data.recommend
+            // })
+            const res1 = await axiosList.getRecommendPlayList()
+            this.recommendPlayList = res1.data.recommend
+            const res = await axiosList.getRecommendMusic()
+            this.recommendMusic.playList = res.data.recommend
+            this.recommendMusic.playLength = res.data.recommend.length
         }
     },
     filter: {},
-    computed: {},
     watch: {}
 }
 </script>
 
 <style lang="less" scoped>
 .swiper-img{
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 260px;
 }
 .swiper{
-    margin-left: 5px;
-    margin-bottom: 20px
+    padding-left: 0px;
+    display:inline
 }
 .swiper-item-div{
     width: 205px;
-    float:right;
+    float:left;
 }
 .over-swpier-slide{
+    padding: 0px
 }
 .collapse{
     width: 600px;
     float: left;
     margin-left:30px
+}
+.recommendImg{
+    background-color: white;
+    width:200px;
+    height:200px;
+    color: red;
+}
+.recommendDiv{
+    width:200px;
+    height:270px;
+    float:left;
+    padding-right:60px;
+    padding-left:60px;
+}
+.recommendDiv img{
+    width: 200px;
+    height:200px;
 }
 </style>
