@@ -4,6 +4,8 @@ import Home from '../components/Home.vue'
 import MusicHallHome from '../components/MusicHall/MusicHallHome.vue'
 import PlayListDetail from '../components/PlayListDetail.vue'
 import MusicListTable from '../components/MusicListTable.vue'
+import Player from '../components/Player/Player.vue'
+import PersonalFm from '../components/PersonalFm/PersonalFm.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -29,6 +31,16 @@ export default new Router({
                     path: '/MusicListTable',
                     name: 'musicList',
                     component: MusicListTable
+                },
+                {
+                    path: '/Player',
+                    name: 'player',
+                    component: Player
+                },
+                {
+                    path: '/PersonalFm',
+                    name: 'personalFm',
+                    component: PersonalFm
                 }
             ]
         }

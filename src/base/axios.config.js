@@ -6,6 +6,7 @@ axios.defaults.withCredentials = true
 var loginUrl = [
     '/user/playlist',
     '/recommend/songs'
+    // '/personal_fm'
 ]
 axios.interceptors.request.use(config => {
     // axios请求拦截器,用以配置请求头等信息

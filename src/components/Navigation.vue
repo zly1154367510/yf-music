@@ -58,7 +58,7 @@ export default {
                         {
                             name: '私人FM',
                             icon: 'video',
-                            to: '/MusicHallHome'
+                            to: '/PersonalFm'
                         },
                         {
                             name: 'LOOK直播',

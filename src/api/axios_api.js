@@ -12,6 +12,12 @@ const axiosList = {
     },
     getRecommendMusic: () => {
         return axios.get('/recommend/songs')
+    },
+    getPersonalFm: () => {
+        return axios.get('/personal_fm')
+    },
+    getPlayUrl: (id) => {
+        return axios.get('/song/url?id=' + id)
     }
 }
 export default axiosList

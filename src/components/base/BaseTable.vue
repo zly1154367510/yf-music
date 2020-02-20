@@ -69,10 +69,12 @@ export default {
     // value 获取父组件双向绑定的值
     props: ['tableFields', 'paramsInfo', 'total', 'url', 'value'],
     mounted () {
+        console.log(this.$route.params)
         this.setIsMy()
     },
     updated () {
-        this.setIsMy()
+        // console.log(this.$route.params)
+        // this.setIsMy()
     },
     data () {
         return {
@@ -115,12 +117,18 @@ export default {
         setIsMy: function () {
             if (this.$route.params.is_my === '1') {
                 this.is_my = 1
+            } else {
+                this.is_my = 0
             }
         }
     },
     filter: {},
     computed: {},
-    watch: {}
+    watch: {
+        $route (to, from) {
+            this.setIsMy()
+        }
+    }
 }
 </script>
 

@@ -25,7 +25,7 @@
             <h2>推荐歌单</h2>
             <hr>
             <br>
-            <div class="recommendDiv" >
+            <div class="recommendDiv" @click='pushRecommendMusicList'>
                 <div class='recommendImg'>
                     <div style="font-size:25px;text-align:center;color:black">{{recommendMusic.week}}</div>
                     <div style="font-size:100px;text-align:center;color:red">{{recommendMusic.playLength}}</div>
@@ -84,6 +84,9 @@ export default {
     methods: {
         ...mapGetters(['getTopPlayList']),
         ...mapActions([ 'topPlay' ]),
+        pushRecommendMusicList: function () {
+            this.$router.push({ name: 'musicList', params: { inputValue: this.recommendMusic.playList } })
+        },
         openPlayListDetail: async function (id) {
             this.$router.push('/playListDetail/' + id)
         },

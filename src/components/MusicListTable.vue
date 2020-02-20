@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="table" v-if='inputValue==null'>
+        <div class="table" v-if='tableValue==null || tableValue==undefined'>
             <base-table
             :tableFields="fields"
             :value="$store.state.musicListData"
@@ -12,7 +12,7 @@
         <div class='table' v-else>
             <base-table
             :tableFields="fields"
-            :value="inputValue"
+            :value="tableValue"
             @rowClick="playMusic"
             @showPlayListDialog='showPlayListDialog'
             @removeFavorite='removeFavorite'>
@@ -51,6 +51,12 @@ export default {
                 this.fields = this.tableFields
             }
         }
+        if (this.$route.params.inputValue !== undefined) {
+            this.tableValue = this.$route.params.inputValue
+        } else if (this.inputValue !== null) {
+            this.tableValue = this.inputValue
+        }
+        // if (this.)
     },
     props: [ 'data', 'inputTableFields', 'inputValue' ],
     data () {
@@ -58,6 +64,7 @@ export default {
             fields: null,
             dialogVisible: false,
             playListData: [],
+            tableValue: [],
             is_my_play_list: this.$route.query.is_my_play_list,
             addFavoriteMusicId: 0,
             musicPlaytableFields: [
