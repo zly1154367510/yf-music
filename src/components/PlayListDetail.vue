@@ -29,8 +29,6 @@ export default {
     watch: {
         // 监听url栏的参数变化 如果变化了则刷新数据
         '$route' (to, from) {
-            // console.log(to)
-            // console.log(from)
             if (to.params.playListId !== undefined) {
                 this.getPlayListDetail()
             }

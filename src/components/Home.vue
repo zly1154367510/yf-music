@@ -21,24 +21,13 @@
                     <el-button type="success" round @click='loginDialogVisible=true' v-else>点击登录</el-button>
                 </el-header>
                 <el-main>
-                    <keep-alive>
+                    <!-- <keep-alive>
                         <router-view></router-view>
-                    </keep-alive>
+                    </keep-alive> -->
+                    <router-view></router-view>
                 </el-main>
-                <el-footer v-if="musicData == false" class='el-footer'>
-                </el-footer>
-                <el-footer v-else class='el-footer' style="height: 130px;">
-                    <a-player
-                    style="background-color: #4F4F4F;color:rgb(254, 254, 255)"
-                    :repeat="'repeat-all'"
-                    v-if="musicData != false"
-                    :music="musicData"
-                    :autoplay="true"
-                    :list="$store.state.playMusicListData"
-                    theme="#696969"
-                    mode="circulation"
-                    listmaxheight='50px'
-                    ref="player"></a-player>
+                <el-footer v-if="musicData != false" class='el-footer' style="height:75px">
+                   <player></player>
                 </el-footer>
             </el-container>
             <el-dialog
@@ -63,10 +52,10 @@
 </template>
 
 <script>
+import player from './Player/Player.vue'
 import navigation from './Navigation'
 import logo from './Logo'
 import { mapState } from 'vuex'
-import VueAplayer from 'vue-aplayer'
 export default {
     name: 'home',
     created () {
@@ -76,7 +65,7 @@ export default {
         ...mapState(['isLogin', 'token', 'userId', 'musicData'])
     },
     components: {
-        'a-player': VueAplayer,
+        player,
         navigation,
         logo
     },

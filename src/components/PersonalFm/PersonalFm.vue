@@ -8,8 +8,6 @@
                 </el-carousel-item>
             </el-carousel>
         </div>
-        <player
-        :music="fm"></player>
     </div>
 </template>
 

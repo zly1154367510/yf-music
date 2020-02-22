@@ -22,6 +22,28 @@ const actions = {
                 reject(res)
             })
         })
+    },
+    musicListData: ({ commit }, res) => {
+        commit(types.SET_MUSIC_LIST_DATA, res)
+    },
+    musicData: ({ commit }, res) => {
+        commit(types.SET_MUSIC_DATA, res)
+    },
+    vlyric: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            axiosList.getLyric(id).then(res => {
+                var tempLyrci = res.data.lrc.lyric.split('[')
+                var lyrci = []
+                var tempLyrciItem = []
+                for (var index in tempLyrci) {
+                    tempLyrciItem = tempLyrci[index].split(']')
+                    lyrci[tempLyrciItem[0]] = tempLyrciItem[1]
+                }
+                commit(types.SET_LYRIC, lyrci)
+            }).catch(error => {
+                console.log(error)
+            })
+        })
     }
 }
 

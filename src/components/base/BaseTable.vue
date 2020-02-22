@@ -69,12 +69,9 @@ export default {
     // value 获取父组件双向绑定的值
     props: ['tableFields', 'paramsInfo', 'total', 'url', 'value'],
     mounted () {
-        console.log(this.$route.params)
         this.setIsMy()
     },
     updated () {
-        // console.log(this.$route.params)
-        // this.setIsMy()
     },
     data () {
         return {

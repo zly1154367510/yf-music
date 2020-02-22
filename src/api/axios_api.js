@@ -18,6 +18,9 @@ const axiosList = {
     },
     getPlayUrl: (id) => {
         return axios.get('/song/url?id=' + id)
+    },
+    getLyric: (id) => {
+        return axios.get('/lyric?id=' + id)
     }
 }
 export default axiosList

@@ -1,23 +1,25 @@
 <template>
     <div>
-        <div class="table" v-if='tableValue==null || tableValue==undefined'>
-            <base-table
-            :tableFields="fields"
-            :value="$store.state.musicListData"
-            @rowClick="playMusic"
-            @showPlayListDialog='showPlayListDialog'
-            @removeFavorite='removeFavorite'>
-             </base-table>
-        </div>
-        <div class='table' v-else>
-            <base-table
-            :tableFields="fields"
-            :value="tableValue"
-            @rowClick="playMusic"
-            @showPlayListDialog='showPlayListDialog'
-            @removeFavorite='removeFavorite'>
-             </base-table>
-        </div>
+        <keep-alive>
+            <div class="table" v-if='tableValue==null || tableValue==undefined'>
+                <base-table
+                :tableFields="fields"
+                :value="$store.state.musicListData"
+                @rowClick="playMusic"
+                @showPlayListDialog='showPlayListDialog'
+                @removeFavorite='removeFavorite'>
+                </base-table>
+            </div>
+            <div class='table' v-else>
+                <base-table
+                :tableFields="fields"
+                :value="tableValue"
+                @rowClick="playMusic"
+                @showPlayListDialog='showPlayListDialog'
+                @removeFavorite='removeFavorite'>
+                </base-table>
+            </div>
+        </keep-alive>
         <el-dialog
             title="歌单列表"
             :visible.sync="dialogVisible"
@@ -47,6 +49,8 @@ export default {
         if (this.fields === null || this.fields === undefined) {
             if (this.inputTableFields !== null && this.inputTableFields !== undefined) {
                 this.fields = this.inputTableFields
+            } else if (this.$route.params.paramTableFields !== undefined) {
+                this.fields = this.$route.params.paramTableFields
             } else {
                 this.fields = this.tableFields
             }
@@ -76,7 +80,7 @@ export default {
     },
     methods: {
         playMusic: function (row) {
-            this.buildPlayMusicList(this.$store.state.musicListData)
+            this.buildPlayMusicList()
             this.playLineMusic(row)
         },
         showPlayListDialog: async function (id) {

@@ -84,8 +84,11 @@ export default {
     methods: {
         ...mapGetters(['getTopPlayList']),
         ...mapActions([ 'topPlay' ]),
-        pushRecommendMusicList: function () {
-            this.$router.push({ name: 'musicList', params: { inputValue: this.recommendMusic.playList } })
+        pushRecommendMusicList: async function () {
+            var musicList = await this.getPlayURL(this.recommendMusic.playList)
+            this.$store.commit('setMusicListData', musicList)
+            musicList = this.artistsToAr(musicList)
+            this.$router.push({ name: 'musicList' })
         },
         openPlayListDetail: async function (id) {
             this.$router.push('/playListDetail/' + id)

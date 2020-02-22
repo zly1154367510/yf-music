@@ -3,6 +3,12 @@ var mutations = {
     [types.SET_TOP_PLAY] (state, data) {
         state.topPlayList = data
     },
+    [types.SET_MUSIC_LIST_DATA] (state, data) {
+        state.musicListData = data
+    },
+    [types.SET_LYRIC] (state, data) {
+        state.lyric = data
+    },
     clearLoginStatus (state) {
         state.isLogin = false
         state.userId = 0
