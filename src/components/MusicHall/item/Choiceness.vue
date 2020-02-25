@@ -97,7 +97,10 @@ export default {
             // axiosList.getRecommendPlayList().then(res => {
             //     this.recommendPlayList = res.data.recommend
             // })
-            const res1 = await axiosList.getRecommendPlayList()
+            var res1 = await axiosList.getRecommendPlayList()
+            if (res1.data === undefined) {
+                res1 = await axiosList.getRecommendPlayList()
+            }
             this.recommendPlayList = res1.data.recommend
             const res = await axiosList.getRecommendMusic()
             this.recommendMusic.playList = res.data.recommend

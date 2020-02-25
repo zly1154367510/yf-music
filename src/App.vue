@@ -53,4 +53,14 @@ a {
   background-color: #2B2B2B;
   color: azure
 }
+hr{
+  height:0px;
+  border-top:1px solid #999;
+  border-right:0px;
+  border-bottom:0px;
+  border-left:0px;
+}
+li {
+  list-style-type:none;
+}
 </style>

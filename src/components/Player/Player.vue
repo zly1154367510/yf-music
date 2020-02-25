@@ -2,7 +2,7 @@
     <div>
         <div id="cover" v-if="isMini == false" @click="showPlayer(1)"></div><!--遮罩层-->
         <div class="playerBody">
-            <i class='el-icon-rank'  @click="showPlayer(2)"></i>
+            <i class='el-icon-rank'  @click="showPlayer(2)" :style="isMini?'':'position: absolute;left: 12.5%;top: 2%;'"></i>
             <keep-alive>
                 <vue-aplayer
                     class='aplayer'
@@ -13,7 +13,7 @@
                     :list="$store.state.playMusicListData"
                     theme="#696969"
                     mode="circulation"
-                    :list-max-height="isMini?'0px':'600px'"
+                    :list-max-height="isMini?'0px':'300px'"
                     @play="initPlay()"
                     ref="player">
                 </vue-aplayer>
@@ -26,6 +26,29 @@
                         <!-- </el-collapse-transition> -->
                     </ul>
                 </div>
+                <div class="comment">
+                    <h3>精彩评论</h3>
+                    <hr>
+                    <br>
+                    <ul>
+                        <li v-for="(item, index) in getHotComment" :key="index">
+                            <div  class="commentItem">
+                                <div>
+                                    <img :src="item.user.avatarUrl" class="commentUserImg">
+                                </div>
+                                <div>
+                                    <span style="color:#6495ED;margin-right: 15px;">
+                                        {{item.user.nickname+":"}}
+                                    </span>{{item.content}}<br><br>
+                                </div>
+                            </div>
+                            <div class="operate" align="right" @click="likeUp(item.commentId,item.liked)">
+                                <a><i class="el-icon-s-opportunity">({{item.likedCount}})</i></a>
+                            </div>
+                            <hr>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -35,14 +58,18 @@
 import VueAplayer from 'vue-aplayer'
 import axiosList from './../../api/axios_api.js'
 // import func from '../../../vue-temp/vue-editor-bridge'
-// import { mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
     name: 'player',
     computed: {
         // ...mapState(['musicData'])
         getCurrentTime () {
             return this.currentTime
-        }
+        },
+        ...mapGetters({
+            // 获取state里的评论
+            getHotComment: 'getHotComment'
+        })
     },
     components: {
         VueAplayer
@@ -61,10 +88,14 @@ export default {
             maximizeStyle: 'background-color: #4F4F4F;color:rgb(254, 254, 255);position:absolute;top:0%;width: 20%',
             duration: 0,
             listHeight: '0px',
-            lyric: []
+            lyric: [],
+            comment: [],
+            currentMusicId: 0
         }
     },
     methods: {
+        // 获取评论的请求方法
+        ...mapActions(['hotComment']),
         test: function () {
             // 已播放时间
             // console.log(this.$refs.audio.currentTime)
@@ -81,6 +112,10 @@ export default {
                 var src = musicListData[index].src.split('/')
                 src = src[src.length - 1]
                 if (src === currentSrc) {
+                    this.currentMusicId = musicListData[index].id
+                    // 获取评论
+                    this.hotComment({id: musicListData[index].id, limit: 10})
+                    // 获取歌词
                     this.getVLyric(musicListData[index].id)
                 }
             }
@@ -120,7 +155,20 @@ export default {
                     this.nowLyricIndex = index
                 }
             }
+        },
+        likeUp: function (cId, liked) {
+            var paramsLiked = liked ? 0 : 1
+            axiosList.likeUp(this.currentMusicId, cId, paramsLiked, 0).then(res => {
+                if (res.data.code === 200) {
+                    this.hotComment({id: this.currentMusicId, limit: 10})
+                }
+            }).catch(error => {
+                console.log(error)
+            })
         }
+        // getVHotComment: function(id, limit) {
+        //     this.hotComment({id, limit: limit})
+        // }
     },
     filter: {},
     watch: {
@@ -134,9 +182,9 @@ export default {
 <style lang="less" scoped>
 #cover{
     position:absolute;left:0px;top:0px;
-    background:rgba(0, 0, 0, 0.9);
+    background:rgba(0, 0, 0, 1.0);
     width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
-    height:100%;
+    height:200%;
     filter:alpha(opacity=100);  /*设置透明度为60%*/
     opacity:1.0;  /*非IE浏览器下设置透明度为60%*/
     z-Index:100;
@@ -167,7 +215,12 @@ export default {
     z-Index:9999;
 }
 .el-icon-rank{
-    z-index: 998
+    z-index: 998;
+}
+.commentItem{
+    display:flex;
+    justify-content: flex-start;
+    margin-top: 15px;
 }
 .miniButton{
     position:absolute;
@@ -182,7 +235,22 @@ export default {
 .now_lyric ~ .other_lyric{
     display: block;
 }
+.comment {
+    position: absolute;
+    left:5%;
+    top:60%;
+    width:40%
+}
 .other_lyric {
     display: none
+}
+.commentUserImg{
+    width:40px;
+    height:40px;
+    margin-right: 15px;
+    border-radius: 20px;
+}
+.operate{
+    margin-bottom: 15px;
 }
 </style>

@@ -9,6 +9,9 @@ var mutations = {
     [types.SET_LYRIC] (state, data) {
         state.lyric = data
     },
+    [types.SET_HOT_COMMENT] (state, data) {
+        state.hotComment = data
+    },
     clearLoginStatus (state) {
         state.isLogin = false
         state.userId = 0

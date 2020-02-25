@@ -21,7 +21,8 @@ export default new Vuex.Store({
         // 精品歌单
         topPlayList: [],
         // 当前播放歌曲的歌词
-        lyric: false
+        lyric: false,
+        hotComment: []
     },
     mutations: mutations,
     actions: actions,

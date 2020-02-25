@@ -21,6 +21,12 @@ const axiosList = {
     },
     getLyric: (id) => {
         return axios.get('/lyric?id=' + id)
+    },
+    getHotComment: (id, limit = 10, type = 0) => {
+        return axios.get(`/comment/hot?id=${id}&limit=${limit}&type=${type}`)
+    },
+    likeUp: (id, cId, t = 1, type = 0) => {
+        return axios.get(`/comment/like?id=${id}&cid=${cId}&t=${t}&type=${type}`)
     }
 }
 export default axiosList

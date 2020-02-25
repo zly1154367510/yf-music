@@ -29,6 +29,20 @@ const actions = {
     musicData: ({ commit }, res) => {
         commit(types.SET_MUSIC_DATA, res)
     },
+    hotComment: ({commit}, params) => {
+        return new Promise((resolve, reject) => {
+            axiosList.getHotComment(params.id, params.limit).then(res => {
+                if (res.data.code === 200) {
+                    commit(types.SET_HOT_COMMENT, res.data.hotComments)
+                    resolve()
+                } else {
+                    reject(res)
+                }
+            }).catch(res => {
+                reject(res)
+            })
+        })
+    },
     vlyric: ({ commit }, id) => {
         return new Promise((resolve, reject) => {
             axiosList.getLyric(id).then(res => {

@@ -8,7 +8,7 @@ var types = {
 
     SET_LYRIC: 'SET_LYRIC',
 
-    SET_SEARCH: 'SET_SEARCH',
+    SET_HOT_COMMENT: 'SET_HOT_COMMENT',
 
     SET_PLAYURL: 'SET_PLAYURL',
 

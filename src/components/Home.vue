@@ -119,21 +119,26 @@ export default {
             }
         },
         checkLoginStatus: async function () {
-            var requestRes = await this.$http.get('/login/status')
-            if (requestRes.data === undefined) {
-                this.$store.commit('clearLoginStatus')
-                return null
-            }
-            if (requestRes.data) {
-                const res = requestRes.data
-                if (res !== undefined && res.code === 301) {
-                    this.$store.commit('loginStatus', false)
-                    this.$store.commit('setUserId', 0)
-                } else {
-                    this.$store.commit('loginStatus', true)
-                    this.$store.commit('setUserId', res.profile.userId)
-                    this.$refs.navigation.getUserPlayList()
+            try {
+                var requestRes = await this.$http.get('/login/status')
+                if (requestRes.data === undefined) {
+                    this.loginDialogVisible = true
+                    this.$store.commit('clearLoginStatus')
+                    return null
                 }
+                if (requestRes.data) {
+                    const res = requestRes.data
+                    if (res !== undefined && res.code === 301) {
+                        this.$store.commit('loginStatus', false)
+                        this.$store.commit('setUserId', 0)
+                    } else {
+                        this.$store.commit('loginStatus', true)
+                        this.$store.commit('setUserId', res.profile.userId)
+                        this.$refs.navigation.getUserPlayList()
+                    }
+                }
+            } catch (Error) {
+                this.loginDialogVisible = true
             }
         },
         logout: async function () {

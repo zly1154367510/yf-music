@@ -5,13 +5,17 @@ const playLineMusic = async function (row) {
     const { data: checkMusicRes } = await this.$http.get('/check/music?id=' + row.id)
     if (checkMusicRes.success) {
         const { data: playMusicUrlRes } = await this.$http.get('/song/url?id=' + row.id)
-        this.$store.commit('setMusicData', {
-            title: row.name,
-            artist: row.name,
-            src: playMusicUrlRes.data[0].url,
-            id: row.id
-            // pic: row.al ? row.al.picUrl : row.artists.picUrl
-        })
+        if (playMusicUrlRes.data[0].url === null) {
+            this.$message('该资源暂时无法播放')
+        } else {
+            this.$store.commit('setMusicData', {
+                title: row.name,
+                artist: row.name,
+                src: playMusicUrlRes.data[0].url,
+                id: row.id
+                // pic: row.al ? row.al.picUrl : row.artists.picUrl
+            })
+        }
     } else {
         this.$message(checkMusicRes.message)
     }
@@ -22,7 +26,6 @@ const buildPlayMusicList = function () {
     var res = this.$store.state.musicListData
     // console.log(res)
     var musicList = []
-    console.log(res)
     for (var item in res) {
         if (res[item].playUrl !== null) {
             musicList.push({

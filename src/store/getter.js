@@ -9,7 +9,8 @@ const getter = {
     getMusicListData: state => {
         return state.musicListData
     },
-    getLyric: state => state.lyric
+    getLyric: state => state.lyric,
+    getHotComment: state => state.hotComment
 }
 
 export default getter
